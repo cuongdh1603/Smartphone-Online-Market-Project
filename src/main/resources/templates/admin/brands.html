@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/layout.html}">
+
+<head>
+    <title>Danh sách nhãn hàng</title>
+</head>
+
+<body>
+    <main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Danh sách nhãn hàng</h1>
+        </div>
+        <a class="btn btn-primary mb-2" th:href="@{/brands/add_brand}">Thêm nhãn hàng</a>
+        <!--DEMO BANG DATA TABLE-->
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Hình ảnh</th>
+                    
+                    <th>Tên hãng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="brand,iterStat : ${brands}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td>
+                        <img th:if="${brand.logo}" th:src="@{${brand.getLogoImagePath()}}" width="100px" height="100px">
+                        <img th:unless="${brand.logo}" th:src="@{/img/brand/nothing.png}" width="100px" height="100px">
+                    </td>
+                    
+                    <td th:text="${brand.name}"></td>
+                    <td>
+                        <a type="button" class="btn btn-success btn-sm"
+                            th:href="@{/brands/update/{id}(id = ${brand.id})}"><i class="fas fa-edit"></i></a>
+                        <a type="button" class="btn btn-danger btn-sm" href="#"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+
+</html>

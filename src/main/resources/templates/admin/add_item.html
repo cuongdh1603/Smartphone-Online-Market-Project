@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/layout.html}">
+
+<head>
+    <title>Thêm sản phẩm mới</title>
+    <link th:href="@{/css/admin/styles.css}" rel="stylesheet">
+    <style>
+        .validationError {
+            color: red;
+        }
+    </style>
+    <link rel="stylesheet"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css}" />
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js}"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js}"></script>
+    <script
+        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js}"></script>
+</head>
+
+<main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Thông tin nhãn hàng mới</h1>
+    </div>
+    <!--DEMO BANG DATA TABLE-->
+    <form th:action="@{/items/save_item}" th:object="${item}" method="POST" enctype="multipart/form-data"
+        onsubmit="return isValidForm();">
+        <div class="form-group row mb-0">
+            <div class="col-8">
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Nhãn hàng:</label>
+                    <select class="form-select col-sm-9" name="id_brand" aria-label="Default select example">
+                        <option selected value="0">Không có</option>
+                        <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}">
+                    </select>
+                    <span id="nullbrand" th:if="${nullbrand!=null}" style="color: red;" th:text="${nullbrand}">
+                    </span>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Tên sản phẩm:</label>
+                    <div class="col-sm-9 my-2">
+                        <input type="text" th:field="*{name}" class="form-control" maxlength="45">
+                        <span class="validationError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                            Name Error
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Mô tả màn hình:</label>
+                    <div class="col-sm-9 my-2">
+                        <input type="text" th:field="*{descScreen}" class="form-control" placeholder="" maxlength="100">
+                        <span class="validationError" th:if="${#fields.hasErrors('descScreen')}"
+                            th:errors="*{descScreen}">
+                            Name Error
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Giá thành:</label>
+                    <div class="input-group col-sm-9 my-2">
+                        <input type="number" class="form-control" th:field="*{price}">
+                        <span class="input-group-text">VNĐ</span>
+                    </div>
+                    <!-- <label class="col-sm-3 col-form-label">Kích thước màn hình:</label>
+                    <div class="input-group col-sm-3 my-2">
+                        <input type="text" name="size-screen" class="form-control" placeholder="">
+                        <span class="input-group-text">inches</span>
+                    </div> -->
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Dung lượng pin:</label>
+                    <div class="input-group col-sm-3 my-2">
+                        <input type="number" th:field="*{battery}" class="form-control" placeholder="">
+                        <span class="input-group-text">mAh</span>
+                        <span class="validationError" th:if="${#fields.hasErrors('battery')}" th:errors="*{battery}">
+                            Name Error
+                        </span>
+                    </div>
+                    <label class="col-sm-3 col-form-label">Dung luong RAM:</label>
+                    <div class="input-group col-sm-3 my-2">
+                        <input type="number" th:field="*{sizeRam}" class="form-control" placeholder="">
+                        <span class="input-group-text">GB</span>
+                        <span class="validationError" th:if="${#fields.hasErrors('sizeRam')}" th:errors="*{sizeRam}">
+                            Name Error
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Do phan giai(X):</label>
+                    <div class="input-group col-sm-3 my-2">
+                        <input type="number" th:field="*{xResolution}" class="form-control" placeholder="">
+                        <span class="input-group-text">pixels</span>
+                        <span class="validationError" th:if="${#fields.hasErrors('xResolution')}"
+                            th:errors="*{xResolution}">
+                            Name Error
+                        </span>
+                    </div>
+                    <label class="col-sm-3 col-form-label">Do phan giai(Y):</label>
+                    <div class="input-group col-sm-3 my-2">
+                        <input type="number" th:field="*{yResolution}" class="form-control" placeholder="">
+                        <span class="input-group-text">pixels</span>
+                        <span class="validationError" th:if="${#fields.hasErrors('yResolution')}"
+                            th:errors="*{yResolution}">
+                            Name Error
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-3 col-form-label">Màu sắc:</label>
+                    <select class="selectpicker col-sm-9" name="id_color" multiple data-live-search="true">
+                        <option th:each="color : ${colors}" th:value="${color.id}" th:text="${color.name}">
+                    </select>
+                    <span id="nullcolor" th:if="${nullcolor!=null}" style="color: red;" th:text="${nullcolor}">
+                    </span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="preview text-center mb-2">
+                        <img class="img-thumbnail" id="file-ip-1-preview" width="200px" height="200px">
+                    </div>
+                    <div class="col-9">
+                        <input name="image" class="form-control form-control-sm" id="file-ip-1" type="file"
+                            accept="image/*" onchange="showPreview(event);">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-2">
+                <label for="exampleFormControlTextarea1" class="form-label">Thêm mô tả</label>
+            </div>
+            <div class="col-6">
+                <textarea class="form-control" th:field="*{note}" id="exampleFormControlTextarea1" rows="3" maxlength="250"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary btn-col-3">Thêm sản phẩm</button>
+                <a class="btn btn-danger btn-col-3" th:href="@{/items}">Hủy</a>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $("input[data-type='currency']").on({
+            keyup: function () {
+                formatCurrency($(this));
+            },
+            blur: function () {
+                formatCurrency($(this), "blur");
+            }
+        });
+        function formatNumber(n) {
+            // format number 1000000 to 1,234,567
+            return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+        function formatCurrency(input, blur) {
+            var input_val = input.val();
+            if (input_val === "") { return; }
+            var original_len = input_val.length;
+            var caret_pos = input.prop("selectionStart");
+            if (input_val.indexOf(".") >= 0) {
+                var decimal_pos = input_val.indexOf(".");
+                // split number by decimal point
+                var left_side = input_val.substring(0, decimal_pos);
+                var right_side = input_val.substring(decimal_pos);
+                // add commas to left side of number
+                left_side = formatNumber(left_side);
+                // validate right side
+                right_side = formatNumber(right_side);
+                // On blur make sure 2 numbers after decimal
+            } else {
+                input_val = formatNumber(input_val);
+                input_val = input_val;
+            }
+            // send updated string to input
+            input.val(input_val);
+            // put caret back in the right position
+            var updated_len = input_val.length;
+            caret_pos = updated_len - original_len + caret_pos;
+            input[0].setSelectionRange(caret_pos, caret_pos);
+        }
+    </script>
+</main>
+
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trang chủ khách hàng</title>
+<link rel="stylesheet" th:href="@{/css/shift.css}">
+</head>
+<body>
+	<h2>CHỌN KHUNG GIỜ ĐẶT</h2>
+	<div style="color: blue;" th:text="${#session.getAttribute('username')}"></div>
+	<hr>
+	<table>
+        <thead>
+            <tr>
+                <th colspan="5">The table header</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td>STT</td>
+                <td>Ngày</td>
+                <td>Ca</td>
+                <td>Giờ bắt đầu</td>
+                <td>Chọn</td>
+            </tr >
+            <tr th:each="sh,iterStat : ${shifts}">  
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${sh.getFormatedDate()}">02/11/2022</td >  
+                <td>
+                	<p th:if="${sh.startTime==7}" th:text="Sang"></p>  
+                	<p th:if="${sh.startTime==14}" th:text="Toi"></p>
+				</td>
+                <td>
+                	<p th:text="${sh.startTime + 'h'}"></p>  
+                
+                </td>
+                <td>
+                    <button>Chọn</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+	<hr>
+	<button>
+	  <a type="button" th:href="@{/client}" style="text-decoration: none;">VỀ TRANG CHỦ</a>
+	</button>
+</body>
+</html>

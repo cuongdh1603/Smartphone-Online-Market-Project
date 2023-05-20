@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Document</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <!-- Owl-carousel CDN -->
+    <link rel="stylesheet"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css}"
+        integrity="sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=" crossorigin="anonymous" />
+    <link rel="stylesheet"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css}"
+        integrity="sha256-kksNxjDRxd/5+jGurZUJd1sdR2v+ClrCl3svESBaJqw=" crossorigin="anonymous" />
+    <!-- font awesome icons -->
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css}"
+        integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+
+<body>
+    <div th:replace="client/fragments/header :: header" />
+    <!-- start #main-site -->
+    <main id="main-site">
+        
+        <!--   product  -->
+        <section id="product" class="py-3">
+            <div class="container">
+                <div th:if="${addCartError!=null}" class="row">
+                    <div class="alert alert-danger"  th:text=${addCartError}></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 py-5">
+                        <img th:src="@{${item.getPhotoPath()}}" alt="product" class="img-fluid" width="80%"
+                            height="auto">
+                        <div class="form-row pt-4 font-size-16 font-baloo dt">
+                            <div class="col-6">
+                                <a type="button" class="btn btn-warning form-control" th:href="@{/home/receipt/{id}(id=${item.id})}">Đặt mua ngay</a>
+                            </div>
+                            <!-- <div class="col-6">
+                                <a type="button" class="btn btn-danger form-control" th:href="@{/home/}" data-toggle="modal" data-target="#exampleModal">Thêm vào giỏ
+                                    hàng</a>
+                            </div> -->
+                            <div class="col-6">
+                                <button type="button" class="btn btn-danger form-control" th:data-id="${item.id}"
+                                    th:data-name="${item.name}" onclick="showConfirmModalDialog(
+                                        this.getAttribute('data-id'),
+                                        this.getAttribute('data-name'))">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 py-5">
+                        <h2 class="font-baloo" th:text="${item.name}"></h2>
+                        <p>Nhãn hàng <span style="font-weight: bolder;" th:text="${item.brand.name}"></span></p>
+                        <div class="d-flex">
+                            <div class="rating text-warning font-size-12">
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="fas fa-star"></i></span>
+                                <span><i class="far fa-star"></i></span>
+                            </div>
+                            <a href="#" class="px-2 font-rale font-size-14">20,534 đánh giá</a>
+                        </div>
+                        <hr class="m-0">
+                        <!---    product price       -->
+                        <table>
+                            <tr>
+                                <td class="font-rale font-size-14">Giá bán: </td>
+                                <td class="font-size-20 text-danger"><span style="font-weight: bolder;" th:text="${item.getFormatPrice()}"></span> VNĐ</td>
+                            </tr>
+                        </table>
+                        <!---    !product price       -->
+                        <!--    #policy -->
+                        <div id="policy">
+                            <div class="d-flex">
+                                <div class="return text-center mr-5">
+                                    <div class="font-size-20 my-2 color-second">
+                                        <span class="fas fa-retweet border p-3 rounded-pill"></span>
+                                    </div>
+                                    <a href="#" class="font-rale font-size-12">Hoàn trả<br> 10 ngày</a>
+                                </div>
+                                <div class="return text-center mr-5">
+                                    <div class="font-size-20 my-2 color-second">
+                                        <span class="fas fa-truck  border p-3 rounded-pill"></span>
+                                    </div>
+                                    <a href="#" class="font-rale font-size-12">Chuyển hàng <br>24/24</a>
+                                </div>
+                                <div class="return text-center mr-5">
+                                    <div class="font-size-20 my-2 color-second">
+                                        <span class="fas fa-check-double border p-3 rounded-pill"></span>
+                                    </div>
+                                    <a href="#" class="font-rale font-size-12">
+                                        <div>2 </div>Năm bảo hành
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--    !policy -->
+                        <hr>
+
+                        <!-- order-details -->
+                        <div id="order-details" class="font-rale d-flex flex-column text-dark">
+                            <p><span class="font-baloo">Kiểu màn hình : </span><span
+                                    th:text="${item.descScreen}"></span></p>
+                            <p><span class="font-baloo">Độ phân giải : </span><span
+                                    th:text="${item.xResolution + ' X' + item.yResolution + ' pixel'}"></span></p>
+                            <p><span class="font-baloo">Dung lượng pin : </span><span
+                                    th:text="${item.battery + ' mAh'}"></span></p>
+                            <p><span class="font-baloo">Dung lượng RAM : </span><span
+                                    th:text="${item.sizeRam + ' GB'}"></span></p>
+                            <p><i class="fas fa-phone"></i>&nbsp;&nbsp;Gọi điện tư vấn - <a href="#">0832230575</a></p>
+                        </div>
+                        <!-- !order-details -->
+
+                        <!-- size -->
+                        <div class="size my-3">
+                            <h6 class="font-baloo">Bộ nhớ trong :</h6>
+
+                            <div class="d-flex justify-content-between w-75">
+                                <div class="font-rubik border p-2">
+                                    <button class="btn p-0 font-size-14">128GB RAM</button>
+                                </div>
+                                <div class="font-rubik border p-2">
+                                    <button class="btn p-0 font-size-14">256GB RAM</button>
+                                </div>
+                                <div class="font-rubik border p-2">
+                                    <button class="btn p-0 font-size-14">512GB RAM</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- !size -->
+                        <!-- color -->
+                        <div class="size my-3">
+                            <h6 class="font-baloo">Màu sắc:</h6>
+                            <div class="d-flex justify-content-between w-75">
+                                <div th:each="col : ${item.colorItems}" class="font-rubik border p-2">
+                                    <button class="btn p-0 font-size-14"><span th:text="${col.color.name}"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- !color -->
+                    </div>
+                    <div class="col-12">
+                        <h5 class="font-rubik">Thông tin sản phẩm</h5>
+                        <hr>
+                        <p class="font-rale font-size-14" th:text="${item.note}"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--   !product  -->
+    </main>
+    <!-- !start #main-site -->
+    <!-- Modal -->
+    <div class="modal fade" id="confirmCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm vào giỏ hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="post">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-6">
+                                    <div class="alert alert-warning" role="alert">
+                                        Bạn muốn thêm điện thoại <span id="namePhone" class="fw-bold"></span>
+                                        vào giỏ hàng ?
+                                    </div>
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" id="yesOption" class="btn btn-primary">Xác nhận</a>
+                        <button type="button" id="hideForm" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showConfirmModalDialog(id, name) {
+            $('#namePhone').text(name);
+            $('#yesOption').attr('href', '/home/addcart/' + id);
+            $('#confirmCart').modal('show');
+            $("#hideForm").click(function () {
+                $("#confirmCart").modal('hide');
+            });
+        }
+    </script>
+    <div th:replace="client/fragments/footer :: footer" />
+    <script th:src="@{https://code.jquery.com/jquery-3.4.1.slim.min.js}"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js}"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js}"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <!-- Owl Carousel Js file -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}"
+        integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+    <!--  isotope plugin cdn  -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js}"
+        integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+    <!-- Custom Javascript -->
+    <script th:src="@{/js/index.js}"></script>
+</body>
+
+</html>

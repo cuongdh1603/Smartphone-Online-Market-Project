@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+    <!-- Blogs -->
+    <section th:fragment="blog" id="blogs">
+        <div class="container py-4">
+            <h4 class="font-rubik font-size-20">Bài viết gần đây</h4>
+            <hr>
+            <div class="owl-carousel owl-theme">
+                <div class="item">
+                    <div class="card border-0 font-rale mr-5" style="width: 18rem;">
+                        <h5 class="card-title font-size-16">Samsung Galaxy S23 Ultra</h5>
+                        <img th:src="@{/img/blog/samsungs22.png}" alt="cart image" class="card-img-top">
+                        <p class="card-text font-size-14 text-black-50 py-1">Là dòng điện thoại cao cấp của hãng điện
+                            thoại Samsung được ra mắt vào đầu năm 2023. Điện thoại Samsung S23 series mới này sở hữu
+                            camera độ phân giải 200MP ấn tượng cùng một khung viền vuông vức sang trọng. Cấu hình máy
+                            cũng là một điểm nổi bật với con chip Snapdragon 8 Gen 2 mạnh mẽ, bộ nhớ RAM 8GB mang lại
+                            hiệu suất xử lý vượt trội</p>
+                        <a href="#" class="color-second text-left">Chi tiết</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card border-0 font-rale mr-5" style="width: 18rem;">
+                        <h5 class="card-title font-size-16">Đánh giá iPhone 13 Pro Max – Hiệu năng vô đối, camera cực
+                            đỉnh</h5>
+                        <img th:src="@{/img/blog/iphone13.png}" alt="cart image" class="card-img-top">
+                        <p class="card-text font-size-14 text-black-50 py-1">Dòng iPhone 12 được Apple áp dụng ngôn
+                            ngữ thiết kế tương tự iPhone 12 năm ngoái với phần cạnh viền máy được dát phẳng
+                            sang trọng cùng bốn góc được làm bo cong nhẹ, đây có thể được xem là một thiết kế hoài cổ từ
+                            dòng iPhone 5 trước đó. Vì thế mà iPhone 13 Pro Max nói riêng, cũng như dòng iPhone 13
+                            nói chung, cũng sẽ đi theo ngôn ngữ thiết kế này.</p>
+                        <a href="#" class="color-second text-left">Chi tiết</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card border-0 font-rale mr-5" style="width: 18rem;">
+                        <h5 class="card-title font-size-16">Thiết kế nguyên khối, sự kết hợp ấn tượng của chất liệu nhôm và kính của Huawei P30
+                        </h5>
+                        <img th:src="@{/img/blog/huaweip30.png}" alt="cart image" class="card-img-top">
+                        <p class="card-text font-size-14 text-black-50 py-1">Huawei P30 sở hữu ba camera Leica quen
+                            thuộc ở mặt sau, bao gồm camera chính có độ phân giải cực khủng 40MP có hỗ trợ zoom quang
+                            học 5x, camera phụ lần lượt là 20MP và 13MP trợ chống rung quang học để nội suy hình ảnh và
+                            hỗ trợ chụp trắng đen. Huawei P30 chắc chắn sẽ không làm cho người dùng thất vọng với những
+                            bức ảnh ưng ý.</p>
+                        <a href="#" class="color-second text-left">Chi tiết</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card border-0 font-rale mr-5" style="width: 18rem;">
+                        <h5 class="card-title font-size-16">Ba camera chụp ảnh đỉnh cao và hiệu năng mạnh mẽ của Huawei P40
+                        </h5>
+                        <img th:src="@{/img/blog/huaweip40.png}" alt="cart image" class="card-img-top">
+                        <p class="card-text font-size-14 text-black-50 py-1">Huawei P40 có thiết kế nguyên khối sang trọng với phần khung kim loại và mặt lưng kính cường lực Gorilla tạo nên sự sang trọng, tinh tế. Có kích thước 148,9 x 71,06 mm và độ mỏng chỉ 8,5mm, P40 vẫn khá gọn gàng mặc dù sở hữu màn hình 6.1 inch. Các đường nét được hoàn thiện tỉ mỉ, các góc được bo cong nhẹ nhàng tạo nên sự mềm mại cũng như mang đến cảm giác cầm nắm thoải mái cho người dùng.</p>
+                        <a href="#" class="color-second text-left">Chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- !Blogs -->
+</body>
+
+</html>

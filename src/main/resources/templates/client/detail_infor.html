@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Document</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <!-- Owl-carousel CDN -->
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css}" integrity="sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css}" integrity="sha256-kksNxjDRxd/5+jGurZUJd1sdR2v+ClrCl3svESBaJqw=" crossorigin="anonymous" />
+    <!-- font awesome icons -->
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css}" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+<body>
+	<div th:replace="client/fragments/header :: header"/>
+	<!-- start #main-site -->
+    <main id="main-site">
+        <div class="container mb-5" th:object="${loggedUser}">
+            <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1>Thông tin khách hàng</h1>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>Họ tên: </label>
+                    <div class="alert alert-success" th:text="${loggedUser.firstname}">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label>Tên: </label>
+                    <div class="alert alert-success" th:text="${loggedUser.lastname}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label>Địa chỉ: </label>
+                    <div class="alert alert-success" th:text="${loggedUser.address}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label>Email: </label>
+                    <div class="alert alert-success" th:text="${loggedUser.email}">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <label>Số ĐT: </label>
+                    <div class="alert alert-success" th:text="${loggedUser.phoneNumber}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-3">
+                    <a type="button" class="btn btn-warning btn-block"><i class="fas fa-user-edit mr-2"></i>Chỉnh sửa</a>
+                </div>
+                <div class="col-3">
+                    <a type="button" th:href="@{/home}" class="btn btn-danger btn-block"><i class="fas fa-door-open mr-2"></i>Quay lại</a>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+    </main>
+    <!-- !start #main-site -->
+	<div th:replace="client/fragments/footer :: footer"/>
+	<script th:src="@{https://code.jquery.com/jquery-3.4.1.slim.min.js}" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js}" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js}" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- Owl Carousel Js file -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}" integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+    <!--  isotope plugin cdn  -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js}" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+    <!-- Custom Javascript -->
+    <script th:src="@{/js/index.js}"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/layout.html}">
+
+<head>
+    <title>Cập nhật nhãn hàng</title>
+</head>
+
+<body>
+    <main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Thông tin nhãn hàng mới</h1>
+        </div>
+        <!--DEMO BANG DATA TABLE-->
+        <form th:action="@{/brands/post_update/{id}(id = ${brand.id})}" th:object="${brand}" method="POST"
+            enctype="multipart/form-data" onsubmit="return isValidForm();">
+            <div class="form-group row mb-0">
+                <div class="col-8">
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label">Tên hãng:</label>
+                        <div class="col-sm-9 my-2">
+                            <input type="text" class="form-control" id="name" name="name" th:field="*{name}">
+                            <br>
+                            <p id="errorName" style="color: red;" hidden>Please fill out this field.</p>
+                            <span id="invalid_code" th:if="${invalid_code!=null}" style="color: red;" th:text="${invalid_code}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="row form-group">
+                        <div class="preview text-center mb-2">
+                            <img th:src="@{${brand.getLogoImagePath()}}" class="text-center" id="file-ip-1-preview"
+                                width="200px" height="200px">
+                        </div>
+                        <div class="col-9">
+                            <input name="image" class="form-control form-control-sm" id="file-ip-1" type="file"
+                                accept="image/*" onchange="showPreview(event);" placeholder="${brand.getPhotoPath()}">
+                        </div>
+                        <p id="errorImage" style="color: red;" hidden>Please upload an image.</p>
+                        <!--<div class="col-3">
+                            <button class="btn btn-small btn-danger" id="dc" onclick="deleteImage();">Hủy</button>
+                        </div>-->
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary btn-col-6">Cập nhật</button>
+                    <a class="btn btn-danger btn-col-6" th:href="@{/brands}">Quay lại</a>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </form>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{admin/layout.html}">
+
+<head>
+    <title>Danh sách sản phẩm</title>
+</head>
+<body>
+    <main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Danh sách đơn hàng chưa xử lý</h1>
+          </div>
+          <div class="row" th:if="${successConfirm!=null}">
+            <div class="alert alert-success" th:text="${successConfirm}">
+            </div>
+          </div>
+          <a class="btn btn-primary mb-2" >Xem tất cả các đơn hàng</a>
+          <!--DEMO BANG DATA TABLE-->
+          <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã đơn hàng</th>
+                    <th>Tên khách hàng</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Thời gian</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<tr th:each="ci,iterStat : ${cartItems}">
+                	<td th:text = "${iterStat.count}"></td>
+                    <td th:text = "${ci.code}"></td>
+                    <td th:text = "${ci.customer.name}"></td>
+                    <td th:text="${ci.item.name}"></td>
+                    <td th:text = "${#dates.format(ci.createTime,'dd/MM/yyyy HH:mm:ss')}"></td>
+                	<td>
+                        <a type="button" class="btn btn-primary btn-sm" href="#"><i class="fas fa-info-circle mx-2"></i></a>
+                        <a type="button" class="btn btn-success btn-sm" th:href="@{/admin/confirm/{id}(id=${ci.id})}"><i class="fas fa-check-circle mx-2"></i></a>
+                    </td>
+            	</tr>
+            </tbody>
+        </table>
+        <!--Delete Confirm Modal-->
+	    <div class="modal fade" id="confirmationId" aria-labelledby="modalTitleId" tabindex="-1" aria-hidden="true" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Record</h5>
+                        <button data-bs-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="alert alert-danger">
+                            Bạn có chắc chắn muốn xóa sản phẩm <span id="productName" class="fw-bold"></span> ?
+                            <br>
+                            Mã sản phẩm: <span id="productCode" class="fw-bold"></span>
+                            
+                        </p>
+                    </div>
+                    <div class="modal-footer col-8">
+                        <a id="yesOption" type="button" class="btn btn-danger">Yes</a>
+                        <a class="btn btn-secondary" data-bs-dismiss="modal"
+                           type="button">No
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Detail Modal-->
+        <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="name"></h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		        <div class="row">
+		          <div class="col-8">
+		            <div class="row">
+		              <label class="col-3">Tên sản phẩm</label>
+		              <p class="alert alert-success col-9">
+		                  <span id="name"></span>
+		              </p>
+		            </div>
+		            <div class="row">
+		              <label class="col-3">Nhãn hàng</label>
+		              <img class="img-thumbnail" id="brand-image" width="20%" height="ms-sm-auto">
+		            </div>
+                    <div class="row">
+                        <label class="col-3">Mô tả màn hình</label>
+                        <p class="alert alert-success col-9">
+                            <span id="desScreen"></span>
+                        </p>
+                      </div>
+		            <div class="row">
+		              <label class="col-3">Giá tiền</label>
+		              <p class="alert alert-success col-9">
+		                  <span id="price"></span>
+		              </p>
+		            </div>
+		            
+		          </div>
+		          <div class="col-4">
+		            <img class="img-thumbnail" id="image" width="80%" height="ms-sm-auto">
+		            
+		          </div>
+		        </div>
+                <div class="row">
+                    <label class="col-4">Dung lượng pin</label>
+                    <p class="alert alert-success col-2">
+                        <span id="battery"></span>
+                    </p>
+                    <label class="col-4">Dung lượng RAM</label>
+                    <p class="alert alert-success col-2">
+                        <span id="ram"></span>
+                    </p>
+                </div>
+                <div class="row">
+                    <label class="col-4">Độ phân giải (X)</label>
+                    <p class="alert alert-success col-2">
+                        <span id="xReso"></span>
+                    </p>
+                    <label class="col-4">Độ phân giải (Y)</label>
+                    <p class="alert alert-success col-2">
+                        <span id="yReso"></span>
+                    </p>
+                </div>
+		        <div class="row">
+		          <label class="col-2">Mô tả</label>
+		          <p class="alert alert-success col-9 row-2">
+		              <span id="note"></span>
+		          </p>
+		        </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+        <script>
+        function showDetailModalDialog(id,name,image,brandImage,desScreen,sizeRam,battery,xReso,yReso,price,note){
+		    $('#name').text(name);
+		    $('#desScreen').text(desScreen);
+		    $('#ram').text(sizeRam);
+
+		    $('#battery').text(battery);
+		    $('#xReso').text(xReso);
+		    $('#yReso').text(yReso);
+		    $('#price').text(price);
+            $('#note').text(note);
+		    var src = image;
+	        var preview = document.getElementById("image");
+	        preview.src = src;
+	        preview.style.display = "block";
+
+		    var brand_preview = document.getElementById("brand-image");
+            brand_preview.src = brandImage;
+            brand_preview.style.display = "block";
+		    $('#detailModal').modal('show');
+		}
+        // this.getAttribute('data-id'),
+        // this.getAttribute('data-name'),
+        // this.getAttribute('data-image'),
+        // this.getAttribute('data-brand-image'),
+        // this.getAttribute('data-descScreen'),
+        // this.getAttribute('data-sizeRam'),
+        // this.getAttribute('data-battery'),
+        // this.getAttribute('data-xReso'),
+        // this.getAttribute('data-yReso'),
+        // this.getAttribute('data-price'),
+        // this.getAttribute('data-note')
+		function showConfirmModalDialog(id,name,code){
+			$('#productName').text(name);
+		    $('#productCode').text(code);
+		    $('#yesOption').attr('href','/products/delete/'+id);
+		    $('#confirmationId').modal('show');
+		}
+        </script>
+	</main>
+
+</body>
+</html>

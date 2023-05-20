@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style_login.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <style>
+    .validationError {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container col-lg-6">
+    <h1>Đăng Nhập </h1>
+    <form th:action="@{/post_login}" th:object="${customer}" method="post" onsubmit="return isValidForm();">
+      <div>
+        <div class="alert alert-danger" th:if="${failedLogin!=null}" th:text=${failedLogin}></div>
+      </div>
+      <label for="username">Tên người dùng:</label>
+      <input type="text" id="username" name="username" th:field="${customer.username}" required>
+    
+      <label for="password">Mật khẩu:</label>
+      <input type="password" id="password" name="password" th:field="${customer.password}" required>
+
+      <a style="text-decoration: none;">Quên mật khẩu?</a>
+      <button type="submit">Đăng nhập </button>
+      <br>
+      <a th:href="@{/signup}" class="btn btn-primary">Đăng kí</a>
+    </form>
+  </div>
+  <script>
+		function isValidForm(){
+			const username = document.getElementById('username').value.trim()
+			const password = document.getElementById('password').value.trim()
+			const errorUsername = document.getElementById('errorUsername')
+			const errorPassword = document.getElementById('errorPassword')
+			if(username==''){
+				errorUsername.removeAttribute('hidden')
+				return false
+			}
+			if(password==''){
+				console.log(password.length)
+				errorPassword.removeAttribute('hidden')
+				return false
+			}
+			return true
+		}
+	</script>
+</body>
+
+</html>

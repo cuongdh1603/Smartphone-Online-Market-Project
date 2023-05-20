@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{admin/layout.html}">
+<head>
+  <title>Add Brand</title>
+  <link th:href="@{/css/admin/styles.css}" rel="stylesheet">
+  <style>
+    .validationError {
+      color: red;
+    }
+  </style>
+</head>
+<main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mb-5">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Thông tin nhãn hàng mới</h1>
+  </div>
+  <!--DEMO BANG DATA TABLE-->
+  <!-- <form th:action="@{/products/save_product}" th:object="${product}" method="post" enctype="multipart/form-data"> -->
+  <form enctype="multipart/form-data"></form>
+  <div class="form-group row mb-0">
+    <!--
+            <div class="col-8">
+              <div class="row">
+                <label class="col-sm-3 col-form-label">Mã sản phẩm:</label>
+                <div class="col-sm-9 my-2">
+                  <input type="text" class="form-control" th:field="*{code}">
+                  <span class="validationError" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">
+						Name Error
+					</span>
+					<span id="invalid_code" th:if="${invalid_code!=null}" style="color: red;" th:text="${invalid_code}">
+					</span>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-3 col-form-label">Tên sản phẩm:</label>
+                <div class="col-sm-9 my-2">
+                  <input type="text" class="form-control" th:field="*{name}" placeholder="">
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-3 col-form-label">Hãng sản phẩm:</label>
+                <div class="col-sm-9 my-2">
+                  <select class="form-select" name="id_brand" aria-label="Default select example">
+                    <option th:each="brand : ${brands}" 
+                    th:value="${brand.id}"
+                    th:text="${brand.name}">
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-3 col-form-label">Số lượng:</label>
+                <div class="counter col-3 my-2">
+                  <span class="down" onClick='decreaseCount(event, this)'>-</span>
+                  	<input id="quantity" type="text" th:field="*{quantity}">
+                  <span class="up" onClick='increaseCount(event, this)'>+</span>
+                </div>
+                <label class="col-sm-3 col-form-label">Giá thành:</label>
+                <div class="input-group col-sm-3 my-2">
+                  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="currency-field" id="currency-field" pattern="^\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="1,000,000">
+                  <span class="input-group-text">VNĐ</span>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-3 col-form-label">Hạn bảo hành:</label>
+                <div class="col-sm-3 my-2">
+                  <select class="form-select" th:field="*{guaranty}" aria-label="Default select example">
+                    <option selected value="0">Không có</option>
+                    <option value="0.5">0.5 năm</option>
+                    <option value="1">1 năm</option>
+                    <option value="1.5">1.5 năm</option>
+                    <option value="3">2 năm</option>
+                  </select>
+                </div>
+                <label class="col-sm-3 col-form-label" >Năm sản xuất:</label>
+                <div class="col-sm-3 my-2">
+                  <input th:field="*{year}" type="number" id="current-year" class="form-control" placeholder="">
+                </div>
+              </div>
+            </div>
+        -->
+    <div class="col-4">
+      <div class="row">
+        <div class="preview text-center mb-2">
+          <img class="img-thumbnail" id="file-ip-1-preview" width="200px" height="200px">
+        </div>
+        <div class="col-9">
+          <input name="image" class="form-control form-control-sm" id="file-ip-1" type="file" accept="image/*"
+            onchange="showPreview(event);">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row my-2">
+    <div class="col-2">
+      <label for="exampleFormControlTextarea1" class="form-label">Thêm mô tả</label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <button type="submit" class="btn btn-primary btn-col-3">Thêm sản phẩm</button>
+      <!-- <a th:href="@{/products}" class="btn btn-danger btn-col-3">Hủy</a> -->
+      <a class="btn btn-danger btn-col-3" >Hủy</a>
+    </div>
+  </div>
+  </form>
+  <script>
+    document.getElementById("current-year").setAttribute('max', new Date().getFullYear())
+    document.getElementById("current-year").defaultValue = new Date().getFullYear()
+    document.getElementById("quantity").defaultValue = "1"
+    $("input[data-type='currency']").on({
+      keyup: function () {
+        formatCurrency($(this));
+      },
+      blur: function () {
+        formatCurrency($(this), "blur");
+      }
+    });
+    function formatNumber(n) {
+      // format number 1000000 to 1,234,567
+      return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+    function formatCurrency(input, blur) {
+      // appends $ to value, validates decimal side
+      // and puts cursor back in right position.
+      // get input value
+      var input_val = input.val();
+      // don't validate empty input
+      if (input_val === "") { return; }
+      // original length
+      var original_len = input_val.length;
+      // initial caret position 
+      var caret_pos = input.prop("selectionStart");
+      // check for decimal
+      if (input_val.indexOf(".") >= 0) {
+        // get position of first decimal
+        // this prevents multiple decimals from
+        // being entered
+        var decimal_pos = input_val.indexOf(".");
+        // split number by decimal point
+        var left_side = input_val.substring(0, decimal_pos);
+        var right_side = input_val.substring(decimal_pos);
+        // add commas to left side of number
+        left_side = formatNumber(left_side);
+        // validate right side
+        right_side = formatNumber(right_side);
+        // On blur make sure 2 numbers after decimal
+      } else {
+        // no decimal entered
+        // add commas to number
+        // remove all non-digits
+        input_val = formatNumber(input_val);
+        input_val = input_val;
+      }
+      // send updated string to input
+      input.val(input_val);
+      // put caret back in the right position
+      var updated_len = input_val.length;
+      caret_pos = updated_len - original_len + caret_pos;
+      input[0].setSelectionRange(caret_pos, caret_pos);
+    }
+    function increaseCount(a, b) {
+      var input = b.previousElementSibling;
+      var value = parseInt(input.value, 10);
+      value = isNaN(value) ? 0 : value;
+      value++;
+      input.value = value;
+    }
+    function decreaseCount(a, b) {
+      var input = b.nextElementSibling;
+      var value = parseInt(input.value, 10);
+      if (value > 1) {
+        value = isNaN(value) ? 0 : value;
+        value--;
+        input.value = value;
+      }
+    }
+  </script>
+</main>
+
+</html>

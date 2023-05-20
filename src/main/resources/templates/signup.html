@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng kí</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style_signup.css}">
+    <style>
+        .validationError {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Đăng kí</h1>
+        <div th:if="${successSignup!=null}">
+            <div class="alert alert-info">
+                <span th:text="${successSignup}"></span>. Quay về <a th:href="@{/login}"
+                    style="text-decoration: none;">Đăng nhập</a>
+            </div>
+        </div>
+        <form th:action="@{/post_signup}" th:object="${newCustomer}" method="post" onsubmit="return isValidForm();">
+            <label for="fullname">Họ và tên:</label>
+            <input type="text" id="fullname" name="fullname" class="form-input" maxlength="50"
+                th:field="${newCustomer.name}" required>
+            <span class="validationError" style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                Firstname Error
+            </span>
+
+            <label for="address">Địa chỉ:</label>
+            <input type="text" id="address" name="address" class="form-input" maxlength="250"
+                th:field="${newCustomer.address}" required>
+            <span class="validationError" style="color: red;" th:if="${#fields.hasErrors('address')}"
+                th:errors="*{address}">
+                Firstname Error
+            </span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-input" maxlength="250"
+                th:field="${newCustomer.email}" required>
+            <span class="validationError" style="color: red;" th:if="${#fields.hasErrors('email')}"
+                th:errors="*{email}">
+                Firstname Error
+            </span>
+
+            <label for="phone">Số điện thoại:</label>
+            <input type="tel" id="phone" name="phone" class="form-input" maxlength="10" th:field="${newCustomer.phone}"
+                required>
+            <span class="validationError" style="color: red;" th:if="${#fields.hasErrors('phone')}"
+                th:errors="*{phone}">
+                Firstname Error
+            </span>
+
+            <label for="username">Tên đăng nhập</label>
+            <input type="text" id="username" name="username" class="form-input" maxlength="15"
+                th:field="${newCustomer.username}" required>
+            <span class="validationError" style="color: red;" th:if="${#fields.hasErrors('username')}"
+                th:errors="*{username}">
+                Firstname Error
+            </span>
+            <span class="validationError" th:if="${usernameError!=null}" th:text="${usernameError}">
+            </span>
+
+            <label for="password">Mật khẩu</label>
+            <input type="password" id="password" name="password" class="form-input" maxlength="20"
+                th:field="${newCustomer.password}" required>
+            <span class="validationError" style="color: red;" th:if="${#fields.hasErrors('password')}"
+                th:errors="*{password}">
+                Firstname Error
+            </span>
+
+
+            <label for="confirm-password">Nhập lại mật khẩu</label>
+            <input type="password" id="confirm-password" name="confirm-password" class="form-input" maxlength="20"
+                required>
+            <span id="errorRePassword" style="color: red;" hidden>Sai mật khẩu</span>
+
+            <button type="submit" class="submit-button">Hoàn thành</button>
+        </form>
+    </div>
+    <script>
+        function isValidForm() {
+            const password = document.getElementById('password').value.trim()
+            const rePassword = document.getElementById('confirm-password').value.trim()
+            const errorRePassword = document.getElementById('errorRePassword')
+            if (rePassword == '' || rePassword != password) {
+                errorRePassword.removeAttribute('hidden')
+                return false
+            }
+            return true
+        }
+    </script>
+</body>
+
+</html>

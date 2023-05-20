@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Danh sachs</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/styles.css}" rel="stylesheet">
+  <!-- Owl-carousel CDN -->
+  <link rel="stylesheet"
+    th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css}"
+    integrity="sha256-UhQQ4fxEeABh4JrcmAJ1+16id/1dnlOEVCFOxDef9Lw=" crossorigin="anonymous" />
+  <link rel="stylesheet"
+    th:href="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css}"
+    integrity="sha256-kksNxjDRxd/5+jGurZUJd1sdR2v+ClrCl3svESBaJqw=" crossorigin="anonymous" />
+  <!-- font awesome icons -->
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css}"
+    integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+
+<body>
+  <div th:replace="client/fragments/header :: header" />
+  <!-- start #main-site -->
+  <main id="main-site">
+    <!-- Shopping cart section  -->
+    <section id="cart" class="py-3">
+      <div class="container-fluid w-75">
+        <h5 class="font-baloo font-size-20">Danh sách giỏ hàng</h5>
+        <!--  shopping cart items   -->
+        <div th:if="${deleteSuccess!=null}" class="row">
+          <div class="alert alert-success"  th:text=${deleteSuccess}></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-9">
+            <!-- cart item -->
+            <div th:each="ci : ${cartItems}">
+              <div class="row border-top py-3 mt-3">
+                <div class="col-sm-2">
+                  <img th:src="@{${ci.item.getPhotoPath()}}" style="height: 120px;" alt="cart1" class="img-fluid">
+                </div>
+                <div class="col-sm-8">
+                  <h5 class="font-baloo font-size-20" th:text="${ci.item.name}"></h5>
+                  <small th:text="${ci.item.brand.name}"></small>
+                  <!-- product rating -->
+                  <div class="d-flex">
+                    <div class="rating text-warning font-size-12">
+                      <span><i class="fas fa-star"></i></span>
+                      <span><i class="fas fa-star"></i></span>
+                      <span><i class="fas fa-star"></i></span>
+                      <span><i class="fas fa-star"></i></span>
+                      <span><i class="far fa-star"></i></span>
+                    </div>
+                    <a href="#" class="px-2 font-rale font-size-14">20,534 ratings</a>
+                  </div>
+                  <!--  !product rating-->
+                  <!-- product qty -->
+                  <div class="qty d-flex pt-2">
+
+                    <a type="button" class="btn font-baloo text-danger" th:href="@{/home/bill/{id}(id=${ci.id})}">Đặt
+                      hàng</a>
+                    <a type="button" class="btn font-baloo text-danger px-3 border-right" 
+                                  th:data-id="${ci.id}"
+                                  th:data-name="${ci.item.name}" 
+                                  onclick="showConfirmModalDialog(
+                                    this.getAttribute('data-id'),
+                                    this.getAttribute('data-name'))">Xóa</a>
+                  </div>
+                  <!-- !product qty -->
+                </div>
+                <div class="col-sm-2 text-right">
+                  <div class="font-size-20 text-danger font-baloo">
+                    <span class="product_price" th:text="${ci.item.getFormatPrice()+ ' VNĐ'}"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- !cart item -->
+          </div>
+          <!-- subtotal section-->
+          <div class="col-sm-3">
+            <div class="sub-total border text-center mt-2">
+              <h6 class="font-size-12 font-rale text-success py-3"><i class="fas fa-check"></i> Hãy đặt mua ngay hôm nay
+                để nhận các ưu đãi lớn</h6>
+              <div class="border-top py-4">
+                <h5 class="font-baloo font-size-20">Số mặt hàng:&nbsp; <span class="text-danger"><span
+                      class="text-danger" id="deal-price" th:text="${numItems}"></span> </span> </h5>
+              </div>
+            </div>
+          </div>
+          <!-- !subtotal section-->
+        </div>
+        <!--  !shopping cart items   -->
+      </div>
+    </section>
+    <!-- !Shopping cart section  -->
+    <!-- New Phones -->
+    <section id="new-phones">
+      <div class="container py-5">
+        <h4 class="font-rubik font-size-20">New Phones</h4>
+        <hr>
+        <!-- owl carousel -->
+        <div class="owl-carousel owl-theme">
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <a href="#"><img src="../assets/products/1.png" alt="product1" class="img-fluid"></a>
+              <div class="text-center">
+                <h6>Samsung Galaxy 10</h6>
+                <div class="rating text-warning font-size-12">
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="far fa-star"></i></span>
+                </div>
+                <div class="price py-2">
+                  <span>$152</span>
+                </div>
+                <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <a href="#"><img src="../assets/products/2.png" alt="product1" class="img-fluid"></a>
+              <div class="text-center">
+                <h6>Readme Note 7</h6>
+                <div class="rating text-warning font-size-12">
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="far fa-star"></i></span>
+                </div>
+                <div class="price py-2">
+                  <span>$152</span>
+                </div>
+                <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <a href="#"><img src="../assets/products/3.png" alt="product1" class="img-fluid"></a>
+              <div class="text-center">
+                <h6>Readme Note 7</h6>
+                <div class="rating text-warning font-size-12">
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="far fa-star"></i></span>
+                </div>
+                <div class="price py-2">
+                  <span>$152</span>
+                </div>
+                <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <a href="#"><img src="../assets/products/6.png" alt="product1" class="img-fluid"></a>
+              <div class="text-center">
+                <h6>Samsung Galaxy 10</h6>
+                <div class="rating text-warning font-size-12">
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="far fa-star"></i></span>
+                </div>
+                <div class="price py-2">
+                  <span>$152</span>
+                </div>
+                <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <a href="#"><img src="../assets/products/1.png" alt="product1" class="img-fluid"></a>
+              <div class="text-center">
+                <h6>Readme Note 7</h6>
+                <div class="rating text-warning font-size-12">
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="fas fa-star"></i></span>
+                  <span><i class="far fa-star"></i></span>
+                </div>
+                <div class="price py-2">
+                  <span>$152</span>
+                </div>
+                <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <div class="d-flex flex-column">
+                <a href="#"><img src="../assets/products/1.png" class="img-fluid" alt="pro1"></a>
+                <div class="text-center">
+                  <h6>Readme Note 7</h6>
+                  <div class="rating text-warning font-size-12">
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="far fa-star"></i></span>
+                  </div>
+                  <div class="price py-2">
+                    <span>$122</span>
+                  </div>
+                  <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item py-2 bg-light">
+            <div class="product font-rale">
+              <div class="d-flex flex-column">
+                <a href="#"><img src="../assets/products/2.png" class="img-fluid" alt="pro1"></a>
+                <div class="text-center">
+                  <h6>Readme Note 7</h6>
+                  <div class="rating text-warning font-size-12">
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="fas fa-star"></i></span>
+                    <span><i class="far fa-star"></i></span>
+                  </div>
+                  <div class="price py-2">
+                    <span>$122</span>
+                  </div>
+                  <button type="submit" class="btn btn-warning font-size-12">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- !owl carousel -->
+      </div>
+    </section>
+    <!-- !New Phones -->
+  </main>
+  <!--Delete Confirm Modal-->
+  <div class="modal fade" id="confirmationId" aria-labelledby="modalTitleId" tabindex="-1" aria-hidden="true"
+    role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          
+          <button data-bs-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="alert alert-danger">
+            Bạn có chắc chắn muốn xóa sản phẩm <span id="itemName" class="fw-bold"></span> khỏi giỏ hàng ?
+            <br>
+          </p>
+        </div>
+        <div class="modal-footer col-8">
+          <a id="yesOption" type="button" class="btn btn-danger">Có</a>
+          <button class="btn btn-secondary" id="hideForm" data-bs-dismiss="modal" type="button">Không
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- !start #main-site -->
+  <div th:replace="client/fragments/footer :: footer" />
+  <script>
+    function showConfirmModalDialog(id,name){
+			  $('#itemName').text(name);
+		    $('#yesOption').attr('href','/home/cart/delete/'+id);
+		    $('#confirmationId').modal('show');
+        $("#hideForm").click(function () {
+          $("#confirmCart").modal('hide');
+        });
+		}
+  </script>
+  <script th:src="@{https://code.jquery.com/jquery-3.4.1.slim.min.js}"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js}"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js}"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <!-- Owl Carousel Js file -->
+  <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js}"
+    integrity="sha256-pTxD+DSzIwmwhOqTFN+DB+nHjO4iAsbgfyFq5K5bcE0=" crossorigin="anonymous"></script>
+  <!--  isotope plugin cdn  -->
+  <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js}"
+    integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+  <!-- Custom Javascript -->
+  <script th:src="@{/js/index.js}"></script>
+</body>
+
+</html>
